@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>The Practice • Daily Studio & Operational Schedule</title>
+
+  <!-- PWA & Apple Web App Meta Tags -->
+  <meta name="theme-color" content="#EBEDEA">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="The Practice Schedule">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="./assets/apple-touch-icon.png">
+
+  <!-- Official The Practice Fonts: Abhaya Libre + Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       THE PRACTICE • OFFICIAL BRAND DESIGN TOKENS
+       Matched 1:1 with The Practice Retail Tool & thepracticetoronto.com
+       ========================================================================== */
+    @font-face {
+      font-family: 'Optima';
+      src: url('./assets/optima-regular.woff2') format('woff2'),
+           url('./assets/optima-regular.woff') format('woff'),
+           url('./assets/optima-regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      /* Signature Architectural Minerals */
+      --color-bg-sage: #EBEDEA;           /* Architectural mineral lime stone */
+      --color-primary: #151515;           /* Deep sanctuary charcoal */
+      --color-text: #333333;              /* High-legibility charcoal slate */
+      --color-text-muted: #54595F;        /* Muted editorial grey */
+      --color-accent-amber: #F5A258;      /* Warm golden terracotta / amber */
+      --color-accent-peach: #FFBC7D;      /* Soft transition peach */
+      --color-card-bg: #FFFFFF;           /* Alabaster white card surface */
+      --color-surface: #F8F7F6;           /* Alabaster cream */
+      --color-button-indigo: #03095F;     /* Signature indigo / navy button */
+      --color-button-hover: #F5A258;
+      --color-border: rgba(21, 21, 21, 0.09);
+      --color-border-subtle: rgba(21, 21, 21, 0.05);
+
+      /* Platform Signature Accents */
+      --color-homebase: #1E3A8A;
+      --color-homebase-bg: rgba(30, 58, 138, 0.08);
+      --color-momence: #D96B27;
+      --color-momence-bg: rgba(217, 107, 39, 0.08);
+      --color-jane: #0F766E;
+      --color-jane-bg: rgba(15, 118, 110, 0.08);
+      --color-alert: #C2410C;
+      --color-alert-bg: rgba(194, 65, 12, 0.09);
+
+      /* Typography */
+      --font-heading: 'Optima', 'Abhaya Libre', Georgia, serif;
+      --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Radii */
+      --radius-pill: 50px;
+      --radius-card: 16px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+
+      /* Shadows */
+      --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 6px 24px rgba(21, 21, 21, 0.06);
+      --shadow-button: 0 4px 15px rgba(3, 9, 95, 0.22);
+      --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.18);
+
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* Evening Zen Sanctuary Mode */
+    body.theme-zen {
+      --color-bg-sage: #0E1211;
+      --color-card-bg: #161D1A;
+      --color-surface: #1B2320;
+      --color-primary: #F8FAFC;
+      --color-text: #E2E8F0;
+      --color-text-muted: #94A3B8;
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-subtle: rgba(255, 255, 255, 0.04);
+      --color-button-indigo: #3730A3;
+      --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-bg-sage);
+      color: var(--color-text);
+      line-height: 1.5;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding-top: var(--safe-top);
+      padding-bottom: var(--safe-bottom);
+    }
+
+    /* ==========================================================================
+       TOP APP HEADER (Exact The Practice Retail Tool Structure)
+       ========================================================================== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      background: var(--color-bg-sage);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand-logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .brand-logo-img {
+      height: 38px;
+      width: auto;
+      max-width: 170px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-divider {
+      width: 1px;
+      height: 28px;
+      background: rgba(21, 21, 21, 0.15);
+      margin: 0 16px;
+    }
+
+    body.theme-zen .brand-divider {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-location {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--color-primary);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--color-text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-pos-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-button-indigo);
+      color: #FFFFFF;
+      padding: 9px 18px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      box-shadow: var(--shadow-button);
+      transition: all 0.22s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .header-pos-btn:hover {
+      background: var(--color-accent-amber);
+      color: var(--color-primary);
+      transform: translateY(-1px);
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--color-border);
+      color: var(--color-primary);
+    }
+
+    body.theme-zen .status-pill {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .status-online .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+    }
+
+    .clock-badge {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--color-border);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    body.theme-zen .clock-badge {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-header-util {
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      padding: 7px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    body.theme-zen .btn-header-util {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--color-text);
+    }
+
+    .btn-header-util:hover {
+      background: #FFFFFF;
+      border-color: var(--color-accent-amber);
+    }
+
+    /* ==========================================================================
+       TAB NAVIGATION BAR (Exact The Practice Retail Tool Nav)
+       ========================================================================== */
+    .nav-tabs {
+      display: flex;
+      background: var(--color-bg-sage);
+      border-bottom: 1px solid var(--color-border);
+      padding: 8px 24px;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .nav-tab {
+      flex: 1;
+      min-width: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--color-text-muted);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    body.theme-zen .nav-tab {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-tab:hover {
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--color-primary);
+    }
+
+    .nav-tab.active {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      box-shadow: 0 2px 10px rgba(21, 21, 21, 0.15);
+    }
+
+    .tab-icon {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== */
+    .content-area {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 24px 24px 40px 24px;
+      width: 100%;
+    }
+
+    /* Operational Transition Alert Banner */
+    .transition-alert-card {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-left: 5px solid var(--color-accent-amber);
+      border-radius: var(--radius-card);
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .alert-lead {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .alert-badge-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--color-momence-bg);
+      color: var(--color-momence);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .alert-headline-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .alert-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-accent-amber);
+    }
+
+    .alert-title {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .alert-detail {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .alert-timer-box {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-accent-amber);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Pulse Metrics Row */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .metric-box {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-subtle);
+      transition: all 0.2s ease;
+    }
+
+    .metric-box:hover {
+      box-shadow: var(--shadow-card);
+      transform: translateY(-1px);
+    }
+
+    .metric-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .metric-number {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .metric-caption {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    /* Controls & Filter Strip */
+    .controls-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .room-select, .search-bar-input {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 9px 18px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--color-text);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .room-select:focus, .search-bar-input:focus {
+      border-color: var(--color-accent-amber);
+      box-shadow: 0 0 0 3px rgba(245, 162, 88, 0.15);
+    }
+
+    .search-bar-input {
+      width: 260px;
+    }
+
+    /* Master Layout Grid */
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 2.3fr 1fr;
+      gap: 24px;
+    }
+
+    /* Timeline Cards Stream */
+    .stream-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .period-header {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-top: 10px;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .period-header::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    .schedule-item-card {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-card);
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      gap: 18px;
+      align-items: center;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .schedule-item-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+      border-color: rgba(245, 162, 88, 0.4);
+    }
+
+    .schedule-item-card.homebase-border { border-left: 4px solid var(--color-homebase); }
+    .schedule-item-card.momence-border { border-left: 4px solid var(--color-momence); }
+    .schedule-item-card.jane-border { border-left: 4px solid var(--color-jane); }
+
+    .schedule-item-card.is-live {
+      background: linear-gradient(to right, rgba(245, 162, 88, 0.08), var(--color-card-bg) 45%);
+      border-color: var(--color-accent-amber);
+    }
+
+    .schedule-item-card.is-completed {
+      opacity: 0.65;
+    }
+
+    .schedule-item-card.is-completed:hover {
+      opacity: 0.95;
+    }
+
+    /* Card Time Column */
+    .card-time {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--color-border);
+      padding-right: 12px;
+    }
+
+    .time-main {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .time-secondary {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .time-length {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-accent-amber);
+      margin-top: 4px;
+    }
+
+    /* Card Info Column */
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .tag-cluster {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip-platform {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .chip-platform.homebase { background: var(--color-homebase-bg); color: var(--color-homebase); }
+    .chip-platform.momence { background: var(--color-momence-bg); color: var(--color-momence); }
+    .chip-platform.jane { background: var(--color-jane-bg); color: var(--color-jane); }
+
+    .chip-room {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      background: var(--color-surface);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+    }
+
+    .card-heading {
+      font-family: var(--font-heading);
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1.25;
+    }
+
+    .card-meta-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .card-host {
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .card-notice {
+      background: var(--color-surface);
+      border: 1px dashed var(--color-accent-amber);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-accent-amber);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    /* Card Action Column */
+    .card-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .capacity-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-inspect-pill {
+      background: var(--color-button-indigo);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-inspect-pill:hover {
+      background: var(--color-accent-amber);
+      color: var(--color-primary);
+    }
+
+    /* Sidebar Panels */
+    .sidebar-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar-panel {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .panel-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .checklist-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      background: var(--color-surface);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .checklist-row:hover {
+      border-color: var(--color-accent-amber);
+    }
+
+    .checklist-row.checked {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+
+    .checklist-time-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--color-accent-amber);
+    }
+
+    .checklist-desc {
+      font-size: 11px;
+      color: var(--color-text);
+      line-height: 1.35;
+    }
+
+    .staff-card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      background: var(--color-surface);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      margin-bottom: 8px;
+    }
+
+    .staff-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .staff-role-sub {
+      font-size: 10px;
+      color: var(--color-text-muted);
+    }
+
+    .staff-badge-tag {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: var(--radius-pill);
+      background: var(--color-homebase-bg);
+      color: var(--color-homebase);
+    }
+
+    /* Modal Sheet */
+    .drawer-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(21, 21, 21, 0.6);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: flex-end;
+      z-index: 100;
+    }
+
+    .drawer-backdrop.active { display: flex; }
+
+    .drawer-panel {
+      width: 540px;
+      max-width: 90vw;
+      height: 100%;
+      background: var(--color-card-bg);
+      box-shadow: var(--shadow-modal);
+      display: flex;
+      flex-direction: column;
+      animation: slideDrawer 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      border-left: 1px solid var(--color-border);
+    }
+
+    @keyframes slideDrawer {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    .drawer-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      background: var(--color-surface);
+    }
+
+    .drawer-content-box {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .drawer-card-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+    }
+
+    .drawer-card-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+      .schedule-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .app-header { padding: 10px 16px; }
+      .brand-meta, .status-pill { display: none; }
+      .nav-tabs { padding: 8px 12px; }
+      .content-area { padding: 16px; }
+      .metrics-bar { grid-template-columns: 1fr; }
+      .schedule-item-card { grid-template-columns: 1fr; }
+      .card-time { border-right: none; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- TOP NAVIGATION HEADER (Matching The Practice Retail Tool) -->
+    <header class="app-header">
+      <div class="header-left">
+        <a href="https://thepracticetoronto.com" target="_blank" rel="noopener" class="brand-logo-link" title="The Practice Toronto">
+          <img src="./assets/the_practice_logo.png" alt="The Practice" class="brand-logo-img">
+        </a>
+        <div class="brand-divider"></div>
+        <div class="brand-meta">
+          <span class="brand-location">YORKVILLE • 360 DAVENPORT RD</span>
+          <span class="brand-subtitle">Unified Daily Operational Schedule</span>
+        </div>
+      </div>
+      
+      <div class="header-right">
+        <a id="btn-header-pos" href="https://momence.com/dashboard/200431/point-of-sale" target="_blank" rel="noopener" class="header-pos-btn" title="Open Moments POS">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <line x1="2" y1="10" x2="22" y2="10"></line>
+          </svg>
+          <span>Moments POS</span>
+        </a>
+
+        <div id="connection-status" class="status-pill status-online">
+          <span class="status-dot"></span>
+          <span id="status-label" class="status-label">3-Way Sync Ready</span>
+        </div>
+
+        <div class="clock-badge">
+          <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
+          <span id="liveClockText">--:--:--</span>
+        </div>
+
+        <button class="btn-header-util" onclick="toggleZenMode()" title="Toggle Evening Zen Mode">
+          <span id="zenIcon">🌙</span> <span id="zenLabel">Zen Mode</span>
+        </button>
+
+        <button class="btn-header-util" onclick="toggleFullScreen()" title="Full screen kiosk view for iPad displays">
+          <span>⛶</span> <span>Kiosk</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- TAB NAVIGATION BAR (Matching The Practice Retail Tool Pill Bar) -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" onclick="setPlatformFilter('all', this)">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span>Unified Master Stream</span>
+      </button>
+
+      <button class="nav-tab" onclick="setPlatformFilter('momence', this)">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="8" r="5"></circle>
+          <path d="M3 21v-2a7 7 0 0 1 14 0v2"></path>
+        </svg>
+        <span>Momence (Studio & Beds)</span>
+      </button>
+
+      <button class="nav-tab" onclick="setPlatformFilter('jane', this)">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+        </svg>
+        <span>Jane App (Clinical)</span>
+      </button>
+
+      <button class="nav-tab" onclick="setPlatformFilter('homebase', this)">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>Homebase (Staff)</span>
+      </button>
+
+      <button class="nav-tab" onclick="triggerManualSync()">
+        <svg class="tab-icon" id="syncSpinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path>
+        </svg>
+        <span>Sync Refresh</span>
+      </button>
+    </nav>
+
+    <!-- MAIN VIEWS CONTENT -->
+    <main class="content-area">
+
+      <!-- Active Transition Alert -->
+      <section class="transition-alert-card">
+        <div class="alert-lead">
+          <div class="alert-badge-icon">⚡</div>
+          <div class="alert-headline-box">
+            <span class="alert-tag">Immediate Operational Transition</span>
+            <h2 class="alert-title">Vibration Bed 1 & 2 Sanitation & Audio Wave Reset</h2>
+            <p class="alert-detail">Prep recovery suite for next client: wipe acoustic surfaces, swap fresh linen, calibrate binaural frequencies.</p>
+          </div>
+        </div>
+        <div class="alert-timer-box">
+          <span>⏱</span> <span>Next in 14m (3:35 PM)</span>
+        </div>
+      </section>
+
+      <!-- 4-Stat Pulse Metrics -->
+      <section class="metrics-bar">
+        <div class="metric-box">
+          <div class="metric-tag">
+            <span>Homebase Staff</span>
+            <span style="color: var(--color-homebase);">● Live</span>
+          </div>
+          <div class="metric-number">6 On Duty</div>
+          <div class="metric-caption">Jackson M. (Lead Concierge), Maya K. (Barista), Leo R. (Tech)</div>
+        </div>
+
+        <div class="metric-box">
+          <div class="metric-tag">
+            <span>Momence Studio</span>
+            <span style="color: var(--color-momence);">● 91.7% Full</span>
+          </div>
+          <div class="metric-number">188 <span style="font-size: 16px; font-weight: 400; color: var(--color-text-muted);">/ 205</span></div>
+          <div class="metric-caption">9 Classes today • 18 First-Timers to greet</div>
+        </div>
+
+        <div class="metric-box">
+          <div class="metric-tag">
+            <span>Vibration Beds</span>
+            <span style="color: var(--color-momence);">● Recovery</span>
+          </div>
+          <div class="metric-number">14 / 16</div>
+          <div class="metric-caption">Bed 1: 100% booked • Bed 2: 2 slots left</div>
+        </div>
+
+        <div class="metric-box">
+          <div class="metric-tag">
+            <span>Jane App Clinic</span>
+            <span style="color: var(--color-jane);">● Clinical</span>
+          </div>
+          <div class="metric-number">11 Appts</div>
+          <div class="metric-caption">Psychiatry (4) • Somatic Psychotherapy (4) • TCM (3)</div>
+        </div>
+      </section>
+
+      <!-- Filter Controls Strip -->
+      <section class="controls-strip">
+        <select class="room-select" id="roomFilterSelect" onchange="filterByRoom(this.value)">
+          <option value="all">All Studio Spaces & Clinical Rooms</option>
+          <option value="studio-a">Studio A (Sun Sanctuary)</option>
+          <option value="studio-b">Studio B (Earth Room)</option>
+          <option value="vibration-beds">Vibration Bed Lounge</option>
+          <option value="clinic-rooms">Clinical Consultation Suites</option>
+          <option value="cafe-front">Front Desk & Cafe</option>
+        </select>
+
+        <input type="text" class="search-bar-input" id="searchInput" placeholder="Search class, practitioner, staff..." oninput="handleSearchInput(this.value)">
+      </section>
+
+      <!-- Master 2-Column Schedule Layout -->
+      <div class="schedule-grid">
+
+        <!-- Left Column: Master Timeline -->
+        <div class="stream-wrapper" id="masterStream">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Right Column: Sidebar Operations & Handoff -->
+        <aside class="sidebar-wrapper">
+
+          <!-- Transition Checklist -->
+          <div class="sidebar-panel">
+            <div class="panel-title">
+              <span>Operational Transitions</span>
+              <span id="transProgress" style="font-family: var(--font-mono); font-size: 11px; color: var(--color-accent-amber); font-weight: 700;">4/8 Done</span>
+            </div>
+            <div id="transitionItemsList">
+              <!-- Injected -->
+            </div>
+          </div>
+
+          <!-- Staff Shift Roster (Homebase) -->
+          <div class="sidebar-panel">
+            <div class="panel-title">
+              <span>Homebase Staff Roster</span>
+              <span style="font-size: 10px; color: var(--color-homebase); font-weight: 700;">ON DUTY</span>
+            </div>
+            <div id="staffRosterList">
+              <!-- Injected -->
+            </div>
+          </div>
+
+          <!-- Floor Handoff & Clinic Privacy Log -->
+          <div class="sidebar-panel">
+            <div class="panel-title">
+              <span>Floor Handoff & Clinic Notes</span>
+              <span style="font-size: 10px; color: var(--color-text-muted); text-transform: uppercase;">Saved</span>
+            </div>
+            <textarea id="handoffNotesArea" style="width: 100%; height: 100px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 10px; font-family: var(--font-body); font-size: 12px; color: var(--color-text); resize: none; margin-bottom: 8px;" placeholder="Leave notes for incoming shift (e.g. Dr. Thorne has a virtual patient in Suite 2 until 4:00 PM; please maintain quiet corridor)..." oninput="saveHandoffNotes(this.value)"></textarea>
+            <button class="btn-inspect-pill" style="width: 100%;" onclick="alert('Floor handoff notes saved across all on-duty devices!')">Update Handoff Log</button>
+          </div>
+
+        </aside>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Inspection Modal Drawer -->
+  <div class="drawer-backdrop" id="modalDrawer" onclick="closeDrawer()">
+    <div class="drawer-panel" onclick="event.stopPropagation()">
+      <div class="drawer-header">
+        <div>
+          <span id="drawerPlatformTag" class="chip-platform momence" style="width: fit-content; display: inline-block; margin-bottom: 6px;">MOMENCE</span>
+          <h2 id="drawerItemTitle" style="font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--color-primary);">Session Title</h2>
+          <div id="drawerItemSub" style="font-family: var(--font-mono); font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">Time & Room</div>
+        </div>
+        <button style="background: transparent; border: none; font-size: 24px; cursor: pointer; color: var(--color-text-muted);" onclick="closeDrawer()">×</button>
+      </div>
+
+      <div class="drawer-content-box">
+        <div class="drawer-card-box">
+          <div class="drawer-card-title">Operational Transition Requirement</div>
+          <div id="drawerTransitionNotice" style="font-size: 13px; color: var(--color-accent-amber); font-weight: 600;">
+            Standard transition procedures.
+          </div>
+        </div>
+
+        <div class="drawer-card-box">
+          <div class="drawer-card-title">Particulars & Host</div>
+          <div id="drawerDetailsText" style="font-size: 13px; color: var(--color-text); line-height: 1.6;">
+            Details here.
+          </div>
+        </div>
+
+        <div class="drawer-card-box">
+          <div class="drawer-card-title">Roster / Client Status</div>
+          <div id="drawerRosterBox" style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+            <!-- Injected -->
+          </div>
+        </div>
+
+        <div class="drawer-card-box">
+          <div class="drawer-card-title">One-Touch Environmental Presets</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+            <button class="header-pos-btn" style="justify-content: center;" onclick="alert('Lighting preset engaged!')">💡 Lighting Preset</button>
+            <button class="header-pos-btn" style="justify-content: center; background: var(--color-accent-amber); color: var(--color-primary);" onclick="alert('VSSL audio zone stream engaged!')">🎵 VSSL Stream</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unified Data and Logic -->
+  <script>
+    const SCHEDULE_DATA = [
+      // MORNING
+      {
+        id: "e1",
+        platform: "homebase",
+        platformLabel: "Homebase",
+        timeStart: "06:30 AM",
+        timeEnd: "02:30 PM",
+        duration: "8 HRS",
+        period: "morning",
+        title: "Morning Concierge & Floor Opening Shift",
+        host: "Jackson McMurdo",
+        room: "Front Desk & Reception",
+        roomSlug: "cafe-front",
+        status: "completed",
+        capacity: "On Duty",
+        transitionNote: "06:45 AM: Sanctuary entry unlock, water filter flush, VSSL Lounge audio to 35%",
+        details: "Opening shift lead. Supervise check-ins, unlock studios, monitor client flow.",
+        roster: [{ name: "Jackson McMurdo (Opening Lead)", status: "Clocked In: 06:28 AM" }]
+      },
+      {
+        id: "e2",
+        platform: "homebase",
+        platformLabel: "Homebase",
+        timeStart: "07:00 AM",
+        timeEnd: "03:00 PM",
+        duration: "8 HRS",
+        period: "morning",
+        title: "Cafe Barista & Morning Rush",
+        host: "Maya Kovacs",
+        room: "Cafe Bar",
+        roomSlug: "cafe-front",
+        status: "completed",
+        capacity: "On Duty",
+        transitionNote: "07:15 AM: Espresso grind calibration, arrange fresh pastries with Momence SKU tags",
+        details: "Manage morning beverage & bakery operations. Support quick-sale checkouts.",
+        roster: [{ name: "Maya Kovacs (Barista Lead)", status: "Clocked In: 06:58 AM" }]
+      },
+      {
+        id: "e3",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "07:00 AM",
+        timeEnd: "08:00 AM",
+        duration: "60 MIN",
+        period: "morning",
+        title: "Morning Flow & Pranayama",
+        host: "Elena Vance",
+        room: "Studio A (Sun)",
+        roomSlug: "studio-a",
+        status: "completed",
+        capacity: "24/24 Full",
+        transitionNote: "08:00 AM: Disinfect mats, collect linen towels, wipe entry handles",
+        details: "Heated morning flow. 2 First-timers in attendance.",
+        roster: [
+          { name: "Sophia Laurent", status: "Founding Member" },
+          { name: "Charlotte Wu", status: "First-Timer ★" }
+        ]
+      },
+      {
+        id: "e4",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "08:15 AM",
+        timeEnd: "09:00 AM",
+        duration: "45 MIN",
+        period: "morning",
+        title: "Vibration Bed 1: Deep Cellular Sound Rejuvenation",
+        host: "Client Self-Guided",
+        room: "Vibration Bed Lounge",
+        roomSlug: "vibration-beds",
+        status: "completed",
+        capacity: "1/1 Booked",
+        transitionNote: "09:00 AM: 15-min wipe down with medical disinfectant, swap linen, recharge headphones",
+        details: "Vibroacoustic Sound Therapy Bed 1 (Theta wave 432Hz deep recovery).",
+        roster: [{ name: "Daniel Craig", status: "Recovery Pass" }]
+      },
+      {
+        id: "e5",
+        platform: "jane",
+        platformLabel: "Jane App",
+        timeStart: "09:00 AM",
+        timeEnd: "10:00 AM",
+        duration: "60 MIN",
+        period: "morning",
+        title: "Psychiatric Consultation & Clinical Follow-up",
+        host: "Dr. Aris Thorne (MD, FRCPC)",
+        room: "Clinical Suite 1",
+        roomSlug: "clinic-rooms",
+        status: "completed",
+        capacity: "Confidential Client",
+        transitionNote: "08:50 AM: Verify water carafe in Suite 1, sound dampener active in corridor",
+        details: "Follow-up clinical assessment. Keep reception area noise subdued.",
+        roster: [{ name: "Client S.T.", status: "Jane Direct Billing" }]
+      },
+      {
+        id: "e6",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "08:30 AM",
+        timeEnd: "09:30 AM",
+        duration: "60 MIN",
+        period: "morning",
+        title: "Dynamic Vinyasa 60 (Heated)",
+        host: "Marcus Chen",
+        room: "Studio A (Sun)",
+        roomSlug: "studio-a",
+        status: "completed",
+        capacity: "25/25 Full",
+        transitionNote: "08:15 AM: Studio A heating to 28°C, activate VSSL Hot Flow playlist",
+        details: "Peak morning group workout. 3 waitlisted.",
+        roster: [
+          { name: "Liam O'Connor", status: "Founding Member" },
+          { name: "Emma Tremblay", status: "First-Timer ★" }
+        ]
+      },
+      {
+        id: "e7",
+        platform: "jane",
+        platformLabel: "Jane App",
+        timeStart: "10:30 AM",
+        timeEnd: "11:30 AM",
+        duration: "60 MIN",
+        period: "morning",
+        title: "Somatic Psychotherapy & Nervous System Reset",
+        host: "Dr. Maya Lin (Ph.D., C.Psych)",
+        room: "Clinical Suite 2",
+        roomSlug: "clinic-rooms",
+        status: "completed",
+        capacity: "Confidential Client",
+        transitionNote: "10:20 AM: Escort client directly to Quiet Nook; provide warm herbal infusion",
+        details: "Trauma-informed somatic therapy. Dim lighting, essential oil diffuser running.",
+        roster: [{ name: "Client H.B.", status: "Private Insurance" }]
+      },
+
+      // AFTERNOON
+      {
+        id: "e8",
+        platform: "homebase",
+        platformLabel: "Homebase",
+        timeStart: "02:00 PM",
+        timeEnd: "10:00 PM",
+        duration: "8 HRS",
+        period: "afternoon",
+        title: "Afternoon Concierge & Evening Closing Shift",
+        host: "Leo Rivera",
+        room: "Front Desk & Reception",
+        roomSlug: "cafe-front",
+        status: "is-live",
+        capacity: "On Duty",
+        transitionNote: "02:15 PM: 15-minute floor handoff with Jackson M. (Review evening rosters & clinic privacy)",
+        details: "Lead evening floor operations, sound bath setup, and security lockup.",
+        roster: [{ name: "Leo Rivera (Closing Lead)", status: "Clocked In: 01:58 PM" }]
+      },
+      {
+        id: "e9",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "03:00 PM",
+        timeEnd: "04:00 PM",
+        duration: "60 MIN",
+        period: "afternoon",
+        title: "Sculpt & Alignment Movement",
+        host: "Chloe Adams",
+        room: "Studio B (Earth)",
+        roomSlug: "studio-b",
+        status: "is-live",
+        capacity: "20/20 Full",
+        transitionNote: "02:45 PM: Room temp 21°C, set VSSL Zone 2 to Rhythmic Flow",
+        details: "High energy movement session. 4 First-timers.",
+        roster: [
+          { name: "Amelia King", status: "First-Timer ★" },
+          { name: "Lucas Moreau", status: "Monthly Unlimited" }
+        ]
+      },
+      {
+        id: "e10",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "03:45 PM",
+        timeEnd: "04:30 PM",
+        duration: "45 MIN",
+        period: "afternoon",
+        title: "Vibration Bed 1 & 2: Dual Soundwave Recovery",
+        host: "Studio Tech (Leo R.)",
+        room: "Vibration Bed Lounge",
+        roomSlug: "vibration-beds",
+        status: "upcoming",
+        capacity: "2/2 Booked",
+        transitionNote: "⚡ IMMEDIATE ALERT (3:35 PM): Sanitize Bed 1 & 2, fresh linen reset, calibrate binaural audio",
+        details: "Dual client session. Protocol: Delta Sleep & Deep Fascia Frequency.",
+        roster: [
+          { name: "Victoria Hall", status: "Recovery Pass" },
+          { name: "Oliver Scott", status: "Founding Member" }
+        ]
+      },
+      {
+        id: "e11",
+        platform: "jane",
+        platformLabel: "Jane App",
+        timeStart: "04:00 PM",
+        timeEnd: "05:00 PM",
+        duration: "60 MIN",
+        period: "afternoon",
+        title: "Acupuncture & Traditional Herbal Assessment",
+        host: "Julian Vance (R.Ac, TCMP)",
+        room: "Clinical Suite 3",
+        roomSlug: "clinic-rooms",
+        status: "upcoming",
+        capacity: "Confidential Client",
+        transitionNote: "03:50 PM: Heat table warmers, prepare single-use sterile acupuncture kits",
+        details: "Integrated acupuncture session for stress reduction & sleep recovery.",
+        roster: [{ name: "Client M.T.", status: "Jane Direct Billing" }]
+      },
+      {
+        id: "e12",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "04:30 PM",
+        timeEnd: "05:30 PM",
+        duration: "60 MIN",
+        period: "afternoon",
+        title: "Sunset Flow 60 (Heated Sanctuary)",
+        host: "Liam Gallagher",
+        room: "Studio A (Sun)",
+        roomSlug: "studio-a",
+        status: "upcoming",
+        capacity: "24/25 Booked",
+        transitionNote: "04:15 PM: Studio A heating to 28°C, warm terracotta cove lights, arrange 4 first-timer mats",
+        details: "Heated sunset practice. High cafe beverage demand anticipated at 5:30 PM.",
+        roster: [
+          { name: "Benjamin Ross", status: "First-Timer ★" },
+          { name: "Isabella Martinez", status: "First-Timer ★" }
+        ]
+      },
+
+      // EVENING
+      {
+        id: "e13",
+        platform: "jane",
+        platformLabel: "Jane App",
+        timeStart: "05:30 PM",
+        timeEnd: "06:30 PM",
+        duration: "60 MIN",
+        period: "evening",
+        title: "Psychiatric Initial Evaluation & Diagnostics",
+        host: "Dr. Aris Thorne (MD, FRCPC)",
+        room: "Clinical Suite 1",
+        roomSlug: "clinic-rooms",
+        status: "upcoming",
+        capacity: "New Patient Intake",
+        transitionNote: "05:20 PM: Welcome patient with privacy priority; verify intake tablet before entry",
+        details: "New patient psychiatric evaluation. Confidentiality protocol in effect.",
+        roster: [{ name: "Patient E.W. (New Intake)", status: "Referral" }]
+      },
+      {
+        id: "e14",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "06:00 PM",
+        timeEnd: "07:15 PM",
+        duration: "75 MIN",
+        period: "evening",
+        title: "Kundalini Energy & Kriya Breathwork",
+        host: "Priya Patel",
+        room: "Studio A (Sun)",
+        roomSlug: "studio-a",
+        status: "upcoming",
+        capacity: "25/25 Full",
+        transitionNote: "05:45 PM: Light incense / diffuse Frankincense, set dimmed amber cove lights",
+        details: "75-minute intensive breathwork & kriya meditation.",
+        roster: [{ name: "Grace Kelly", status: "Founding Member" }]
+      },
+      {
+        id: "e15",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "07:30 PM",
+        timeEnd: "08:30 PM",
+        duration: "60 MIN",
+        period: "evening",
+        title: "Deep Restorative Yin & Singing Bowls",
+        host: "Marcus Chen",
+        room: "Studio B (Earth)",
+        roomSlug: "studio-b",
+        status: "upcoming",
+        capacity: "19/20 Booked",
+        transitionNote: "07:15 PM: Distribute organic bolsters, sandbags, and eye pillows",
+        details: "Slow restorative floor postures.",
+        roster: [{ name: "Daniel Craig", status: "First-Timer ★" }]
+      },
+      {
+        id: "e16",
+        platform: "momence",
+        platformLabel: "Momence",
+        timeStart: "08:45 PM",
+        timeEnd: "09:45 PM",
+        duration: "60 MIN",
+        period: "evening",
+        title: "Candlelight Sound Bath & Symphonic Gong",
+        host: "Elena Vance",
+        room: "Studio A (Sun)",
+        roomSlug: "studio-a",
+        status: "upcoming",
+        capacity: "25/25 Full",
+        transitionNote: "08:30 PM: Switch entire building to Zen Mode (10% lighting), silence all hallway chimes",
+        details: "Final sanctuary immersion of the evening. 3 waitlisted.",
+        roster: [{ name: "Aria Thorne", status: "First-Timer ★" }]
+      },
+      {
+        id: "e17",
+        platform: "homebase",
+        platformLabel: "Homebase",
+        timeStart: "09:45 PM",
+        timeEnd: "10:15 PM",
+        duration: "30 MIN",
+        period: "evening",
+        title: "Closing Sweep & Studio Security Arming",
+        host: "Leo Rivera",
+        room: "Full Facility",
+        roomSlug: "cafe-front",
+        status: "upcoming",
+        capacity: "Staff Closeout",
+        transitionNote: "09:50 PM: Cash drawer count, confirm all clinical doors locked, arm security system",
+        details: "End of day lockup and Momence daily register audit.",
+        roster: [{ name: "Leo Rivera", status: "Closing Lead" }]
+      }
+    ];
+
+    const TRANSITIONS = [
+      { id: "t1", time: "06:45 AM", text: "Sanctuary entry unlock, water filter flush, VSSL Lounge audio to 35%", done: true },
+      { id: "t2", time: "07:15 AM", text: "Cafe espresso calibration & fresh bakery display setup", done: true },
+      { id: "t3", time: "08:50 AM", text: "Jane App: Prep Clinical Suite 1 for Dr. Thorne's patient", done: true },
+      { id: "t4", time: "02:15 PM", text: "Homebase: 15-min shift handoff between Jackson M. and Leo R.", done: true },
+      { id: "t5", time: "03:35 PM", text: "⚡ URGENT: Sanitize Vibration Bed 1 & 2 for 3:45 PM dual recovery", done: false },
+      { id: "t6", time: "04:15 PM", text: "Studio A heat to 28°C for Sunset Flow & welcome 4 first-timers", done: false },
+      { id: "t7", time: "05:20 PM", text: "Jane App: Discreet reception for Dr. Thorne's new intake patient", done: false },
+      { id: "t8", time: "08:30 PM", text: "Engage Zen Mode: 10% lighting & silence chimes for Candlelight Sound Bath", done: false }
+    ];
+
+    const STAFF_ROSTER = [
+      { name: "Jackson McMurdo", role: "Lead Concierge (Morning)", badge: "Morning Lead" },
+      { name: "Leo Rivera", role: "Closing Concierge & Tech", badge: "Current Lead" },
+      { name: "Maya Kovacs", role: "Cafe Barista Lead", badge: "Cafe" },
+      { name: "Elena Vance", role: "Lead Yoga & Sound Instructor", badge: "Instructor" },
+      { name: "Dr. Aris Thorne", role: "Psychiatrist (Clinical)", badge: "Practitioner" },
+      { name: "Chloe Adams", role: "Movement Instructor", badge: "Instructor" }
+    ];
+
+    let currentPlatformFilter = "all";
+    let currentRoomFilter = "all";
+    let currentSearchQuery = "";
+
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('liveClockText').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Render Timeline
+    function renderTimeline() {
+      const container = document.getElementById('masterStream');
+      container.innerHTML = "";
+
+      const filtered = SCHEDULE_DATA.filter(item => {
+        const matchesPlat = (currentPlatformFilter === "all") || (item.platform === currentPlatformFilter);
+        const matchesRoom = (currentRoomFilter === "all") || (item.roomSlug === currentRoomFilter);
+        const matchesSearch = item.title.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                              item.host.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                              item.room.toLowerCase().includes(currentSearchQuery.toLowerCase());
+        return matchesPlat && matchesRoom && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="padding: 40px; text-align: center; color: var(--color-text-muted); background: var(--color-card-bg); border-radius: var(--radius-card); border: 1px solid var(--color-border);">No sessions or appointments found for current filter.</div>`;
+        return;
+      }
+
+      let lastPeriod = "";
+
+      filtered.forEach(item => {
+        if (item.period !== lastPeriod) {
+          lastPeriod = item.period;
+          const pHdr = document.createElement('div');
+          pHdr.className = "period-header";
+          pHdr.textContent = `${item.period.toUpperCase()} TIMELINE`;
+          container.appendChild(pHdr);
+        }
+
+        const card = document.createElement('div');
+        card.className = `schedule-item-card ${item.platform}-border ${item.status}`;
+        card.onclick = () => openDrawer(item.id);
+
+        card.innerHTML = `
+          <div class="card-time">
+            <span class="time-main">${item.timeStart}</span>
+            <span class="time-secondary">${item.timeEnd}</span>
+            <span class="time-length">${item.duration}</span>
+          </div>
+
+          <div class="card-info">
+            <div class="tag-cluster">
+              <span class="chip-platform ${item.platform}">${item.platformLabel}</span>
+              <span class="chip-room">${item.room}</span>
+              ${item.status === 'is-live' ? '<span style="font-size: 10px; font-weight: 700; color: #DC2626;">● LIVE NOW</span>' : ''}
+              ${item.status === 'completed' ? '<span style="font-size: 10px; color: var(--color-text-muted);">✓ Finished</span>' : ''}
+            </div>
+            <h3 class="card-heading">${item.title}</h3>
+            <div class="card-meta-line">
+              <span class="card-host">👤 ${item.host}</span>
+              <span>•</span>
+              <span>${item.capacity}</span>
+            </div>
+            ${item.transitionNote ? `<div class="card-notice"><span>⚡</span> <span>${item.transitionNote}</span></div>` : ''}
+          </div>
+
+          <div class="card-action">
+            <span class="capacity-badge">${item.capacity.split(' ')[0]}</span>
+            <button class="btn-inspect-pill" onclick="event.stopPropagation(); openDrawer('${item.id}')">Inspect</button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // Render Transitions Checklist
+    function renderTransitionsList() {
+      const container = document.getElementById('transitionItemsList');
+      container.innerHTML = "";
+      let done = 0;
+
+      TRANSITIONS.forEach(t => {
+        if (t.done) done++;
+        const row = document.createElement('div');
+        row.className = `checklist-row ${t.done ? 'checked' : ''}`;
+        row.onclick = () => toggleTransition(t.id);
+        row.innerHTML = `
+          <input type="checkbox" style="margin-top: 2px; accent-color: var(--color-accent-amber);" ${t.done ? 'checked' : ''} onclick="event.stopPropagation(); toggleTransition('${t.id}')">
+          <div>
+            <div class="checklist-time-tag">${t.time}</div>
+            <div class="checklist-desc">${t.text}</div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      document.getElementById('transProgress').textContent = `${done}/${TRANSITIONS.length} Done`;
+    }
+
+    function toggleTransition(id) {
+      const m = TRANSITIONS.find(x => x.id === id);
+      if (m) {
+        m.done = !m.done;
+        renderTransitionsList();
+      }
+    }
+
+    // Render Staff Roster
+    function renderStaffList() {
+      const container = document.getElementById('staffRosterList');
+      container.innerHTML = "";
+
+      STAFF_ROSTER.forEach(s => {
+        const row = document.createElement('div');
+        row.className = "staff-card-row";
+        row.innerHTML = `
+          <div>
+            <div class="staff-name">${s.name}</div>
+            <div class="staff-role-sub">${s.role}</div>
+          </div>
+          <span class="staff-badge-tag">${s.badge}</span>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    // Filters
+    function setPlatformFilter(plat, btn) {
+      currentPlatformFilter = plat;
+      document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTimeline();
+    }
+
+    function filterByRoom(val) {
+      currentRoomFilter = val;
+      renderTimeline();
+    }
+
+    function handleSearchInput(val) {
+      currentSearchQuery = val;
+      renderTimeline();
+    }
+
+    // Drawer Modal
+    function openDrawer(id) {
+      const item = SCHEDULE_DATA.find(x => x.id === id);
+      if (!item) return;
+
+      const tag = document.getElementById('drawerPlatformTag');
+      tag.className = `chip-platform ${item.platform}`;
+      tag.textContent = `${item.platformLabel.toUpperCase()} RECORD`;
+
+      document.getElementById('drawerItemTitle').textContent = item.title;
+      document.getElementById('drawerItemSub').textContent = `${item.timeStart} – ${item.timeEnd} • ${item.room}`;
+      document.getElementById('drawerTransitionNotice').textContent = item.transitionNote || "Standard operational procedures apply.";
+      document.getElementById('drawerDetailsText').innerHTML = `
+        <strong>Host / Practitioner:</strong> ${item.host}<br>
+        <strong>Space:</strong> ${item.room}<br>
+        <strong>Operational Scope:</strong> ${item.details}
+      `;
+
+      const rosterBox = document.getElementById('drawerRosterBox');
+      rosterBox.innerHTML = "";
+      if (item.roster && item.roster.length > 0) {
+        item.roster.forEach(r => {
+          const div = document.createElement('div');
+          div.style = "padding: 8px 12px; background: var(--color-card-bg); border-radius: var(--radius-sm); border: 1px solid var(--color-border); display: flex; justify-content: space-between; font-size: 12px;";
+          div.innerHTML = `<span>${r.name}</span><span style="font-weight: 600; color: var(--color-accent-amber);">${r.status || ''}</span>`;
+          rosterBox.appendChild(div);
+        });
+      } else {
+        rosterBox.innerHTML = `<span style="font-size: 11px; color: var(--color-text-muted);">(No roster entries)</span>`;
+      }
+
+      document.getElementById('modalDrawer').classList.add('active');
+    }
+
+    function closeDrawer() {
+      document.getElementById('modalDrawer').classList.remove('active');
+    }
+
+    // Theme Zen Toggle
+    function toggleZenMode() {
+      const isZen = document.body.classList.toggle('theme-zen');
+      document.getElementById('zenIcon').textContent = isZen ? "☀️" : "🌙";
+      document.getElementById('zenLabel').textContent = isZen ? "Day Mode" : "Zen Mode";
+      localStorage.setItem('the_practice_zen', isZen ? 'true' : 'false');
+    }
+
+    // Kiosk Full Screen
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // Manual Sync
+    function triggerManualSync() {
+      const spinner = document.getElementById('syncSpinner');
+      spinner.style.animation = "spin 0.8s linear infinite";
+      setTimeout(() => {
+        spinner.style.animation = "none";
+        alert("✓ 3-Way Sync Complete!\n• Homebase: 6 staff rosters synced\n• Momence: 9 classes & 14 vibration bed sessions updated\n• Jane App: 11 clinical appointments live");
+      }, 700);
+    }
+
+    function saveHandoffNotes(val) {
+      localStorage.setItem('the_practice_schedule_notes', val);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('the_practice_zen') === 'true') {
+        toggleZenMode();
+      }
+      const saved = localStorage.getItem('the_practice_schedule_notes');
+      if (saved) {
+        document.getElementById('handoffNotesArea').value = saved;
+      }
+      renderTimeline();
+      renderTransitionsList();
+      renderStaffList();
+    });
+  </script>
+
+  <style>
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+  </style>
+</body>
+</html>
